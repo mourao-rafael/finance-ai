@@ -7,6 +7,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - [ShadCN](https://ui.shadcn.com/) for frontend components
 - [PostgreSQL](https://www.postgresql.org/) as the DataBase
 - [Neon Tech](https://neon.tech/) to host the DataBase
+- [Clerk](https://clerk.com/) for authentication
 
 
 <!-- This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel. -->
