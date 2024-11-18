@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react"
 import { Button } from "../_components/ui/button";
 import { LogInIcon } from "lucide-react";
 import { SignInButton } from "@clerk/nextjs";
