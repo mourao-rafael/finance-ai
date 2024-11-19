@@ -1,11 +1,12 @@
 "use client"
 
-import { Transaction, TransactionCategory, TransactionPaymentMethod } from "@prisma/client"
+import { Transaction } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import TransactionTypeBadge from "../_components/type-badge"
 import { TRANSACTION_CATEGORY_LABELS, TRANSACTION_PAYMENT_METHOD_LABELS } from "@/app/_constants/transaction";
 import EditTransactionButton from "../_components/edit-transaction-button";
 import DeleteTransactionButton from "../_components/delete-transaction-button";
+import { formatCurrency } from "@/app/_actions/_utils/currency";
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -35,10 +36,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row: { original: transaction } }) => {
-      const numberFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
-      return numberFormatter.format(Number(transaction.amount));
-    },
+    cell: ({ row: { original: transaction } }) => formatCurrency(Number(transaction.amount)),
   },
   {
     accessorKey: "actions",

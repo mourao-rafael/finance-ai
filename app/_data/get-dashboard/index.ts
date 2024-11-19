@@ -64,5 +64,20 @@ export const getDashboard = async (month: string) => {
     ),
   }));
 
-  return { depositsTotal, investmentsTotal, expensesTotal, balance, typesPercentage, totalExpensePerCategory };
+  // Fetch last transactions:
+  const lastTransactions = await db.transaction.findMany({
+    where,
+    orderBy: { date: "desc" },
+    take: 10,
+  });
+
+  return {
+    depositsTotal,
+    investmentsTotal,
+    expensesTotal,
+    balance,
+    typesPercentage,
+    totalExpensePerCategory,
+    lastTransactions
+  };
 }
