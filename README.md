@@ -10,6 +10,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - [Clerk](https://clerk.com/) for authentication
 - [React Hook Form](https://react-hook-form.com/) to build forms
 - [Zod](https://zod.dev/) to validate forms
+- [Stripe](https://stripe.com/) for payment services
 
 
 <!-- This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel. -->
