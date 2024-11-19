@@ -16,11 +16,11 @@ export const upsertTransaction = async (params: Omit<Prisma.TransactionCreateInp
 
   // Create transaction:
   await db.transaction.upsert({
+    update: { ...params, userId },
+    create: { ...params, userId },
     where: {
       id: params.id || '',
     },
-    update: { ...params, userId },
-    create: { ...params, userId },
   });
 
   // Update transactions listing page:
