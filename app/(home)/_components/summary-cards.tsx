@@ -1,7 +1,5 @@
 import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react";
 import SummaryCard from "./summary-card";
-import { db } from "@/app/_lib/prisma";
-import { TransactionType } from "@prisma/client";
 
 interface SummaryCardsProps {
   depositsTotal: number;
