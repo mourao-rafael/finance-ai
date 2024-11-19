@@ -4,32 +4,13 @@ import { db } from "@/app/_lib/prisma";
 import { TransactionType } from "@prisma/client";
 
 interface SummaryCardsProps {
-  month: string;
+  depositsTotal: number;
+  investmentsTotal: number;
+  expensesTotal: number;
+  balance: number;
 }
 
-const SummaryCards = async ({ month }: SummaryCardsProps) => {
-  const fetchSum = async (type: TransactionType) => {
-    return Number(
-      (
-        await db.transaction.aggregate({
-          where: {
-            date: {
-              gte: new Date(`2024-${month}-01`),
-              lt: new Date(`2024-${month}-31`),
-            },
-            type,
-          },
-          _sum: { amount: true },
-        })
-      )?._sum?.amount
-    );
-  }
-
-  // Fetch data from the DB:
-  const depositsTotal = await fetchSum("DEPOSIT");
-  const investmentsTotal = await fetchSum("INVESTMENT");
-  const expensesTotal = await fetchSum("EXPENSE");
-  const balance = depositsTotal - investmentsTotal - expensesTotal;
+const SummaryCards = async ({ depositsTotal, investmentsTotal, expensesTotal, balance }: SummaryCardsProps) => {
 
   // Render summary cards:
   return (
