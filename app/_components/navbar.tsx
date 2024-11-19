@@ -15,7 +15,7 @@ const Navbar = () => {
       {/* Left: */}
       <div className="flex items-center gap-10">
         <Image src="/logo.svg" alt="Finance AI logo" width={173} height={39} />
-        <Link href='/dashboard' className={pathname === '/dashboard' ? selectedClassname : defaultClassname}>Dashboard</Link>
+        <Link href='/' className={pathname === '/' ? selectedClassname : defaultClassname}>Dashboard</Link>
         <Link href='/transactions' className={pathname === '/transactions' ? selectedClassname : defaultClassname}>Transactions</Link>
         <Link href='/subscription' className={pathname === '/subscription' ? selectedClassname : defaultClassname}>Subscription</Link>
       </div>
