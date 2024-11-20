@@ -16,9 +16,9 @@ const LoginPage = async (props) => {
       {/* LEFT COLLUMN: */}
       <div className="flex h-full flex-col justify-center p-8 max-w-[550px] mx-auto">
         <Image src="/logo.svg" alt="Finance AI Logo" width={173} height={39} className="mb-8" />
-        <h1 className="text-4xl font-bold mb-3">Bem-vindo</h1>
+        <h1 className="text-4xl font-bold mb-3">Welcome</h1>
         <p className="text-muted-foreground mb-8">
-          A Finance AI é uma plataforma de gestão financeira que utiliza IA para monitorar suas movimentações, e oferecer insights personalizados, facilitando o controle do seu orçamento.
+          Finance AI is a financial management platform that uses AI to monitor your transactions and offer personalized insights, making it easier to control your budget.
         </p>
 
         <SignInButton>
