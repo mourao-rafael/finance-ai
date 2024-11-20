@@ -17,7 +17,7 @@ const AddTransactionButton = ({ userCanAddTransaction }: AddTransactionButtonPro
     <>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Button
               className="rounded-full font-bold"
               onClick={() => setDialogIsOpen(true)}
