@@ -16,7 +16,7 @@ const PercentageItem = ({ icon, title, value }: PercentageItemProps) => {
       </div>
 
       {/* Value: */}
-      <p className="font-bold text-sm">{value + `%`}</p>
+      <p className="font-bold text-sm">{(value || 0) + `%`}</p>
     </div>
   )
 };
