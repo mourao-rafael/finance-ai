@@ -5,6 +5,7 @@ import AddTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 
 const TransactionsPage = async () => {
   const { userId } = await auth();
@@ -19,6 +20,8 @@ const TransactionsPage = async () => {
     }
   });
 
+  const userCanAddTransaction = await canUserAddTransaction();
+
   // Create transactions table:
   return (
     <>
@@ -27,7 +30,7 @@ const TransactionsPage = async () => {
         {/* PAGE TITLE + BUTTON: */}
         <div className="flex w-full items-center justify-between">
           <h1 className="font-bold text-2xl">Transactions</h1>
-          <AddTransactionButton />
+          <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
 
         {/* LISTING TABLE: */}
