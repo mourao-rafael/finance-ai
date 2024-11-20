@@ -35,7 +35,7 @@ const TransactionsPage = async () => {
   return (
     <>
       <Navbar />
-      <div className="p-6 space-y-6 overflow-hidden">
+      <div className="p-6 space-y-6 overflow-hidden flex flex-col">
         {/* PAGE TITLE + BUTTON: */}
         <div className="flex w-full items-center justify-between">
           <h1 className="font-bold text-2xl">Transactions</h1>
