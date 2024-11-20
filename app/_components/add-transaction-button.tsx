@@ -18,19 +18,25 @@ const AddTransactionButton = ({ userCanAddTransaction }: AddTransactionButtonPro
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              className="rounded-full font-bold"
-              onClick={() => setDialogIsOpen(true)}
-              disabled={!userCanAddTransaction}
-            >
-              Add transaction
-              <ArrowDownUpIcon className="ml-2" />
-            </Button>
+            <span className={userCanAddTransaction ? "cursor-pointer" : "cursor-not-allowed"}>
+              <Button
+                className="rounded-full font-bold"
+                onClick={() => setDialogIsOpen(true)}
+                disabled={!userCanAddTransaction}
+              >
+                Add transaction
+                <ArrowDownUpIcon className="ml-2" />
+              </Button>
+            </span>
           </TooltipTrigger>
 
-          <TooltipContent>
-            {!userCanAddTransaction && "You cannot create more transactions this month. Upgrade to Premium Plan to create unlimited transactions."}
-          </TooltipContent>
+          {
+            !userCanAddTransaction && (
+              <TooltipContent>
+                You cannot create more transactions this month. Upgrade to Premium Plan to create unlimited transactions.
+              </TooltipContent>
+            )
+          }
         </Tooltip>
       </TooltipProvider>
 
