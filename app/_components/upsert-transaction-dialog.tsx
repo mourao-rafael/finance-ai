@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { MoneyInput } from "./money-input";
@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { TransactionCategory, TransactionPaymentMethod, TransactionType } from "@prisma/client";
 import { upsertTransaction } from "../_actions/upsert-transaction";
+import { ScrollArea } from "./ui/scroll-area";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, { message: "Name is required." }),
@@ -51,145 +52,146 @@ const UpsertTransactionDialog = ({ dialogIsOpen, setDialogIsOpen, defaultValues,
 
   return (
     <Dialog open={dialogIsOpen} onOpenChange={(open) => { setDialogIsOpen(open); if (!open) form.reset() }}>
-      <DialogTrigger asChild>
+      <DialogContent className="max-h-[95%] overflow-hidden p-0 flex" tabIndex={undefined}>
+        <ScrollArea className="max-h-[100%] w-full">
+          <div className="p-6">
+            <DialogHeader>
+              <DialogTitle>{transactionId ? `Update` : `Add`} Transaction</DialogTitle>
+              <DialogDescription>Enter the information below</DialogDescription>
+            </DialogHeader>
 
-      </DialogTrigger>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Name of the transaction" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="amount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Amount</FormLabel>
+                      <FormControl>
+                        <MoneyInput
+                          // {...field}
+                          placeholder="Amount"
+                          value={field.value}
+                          onValueChange={({ floatValue }) => field.onChange(floatValue)}
+                          onBlur={field.onBlur}
+                          disabled={field.disabled}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{transactionId ? `Update` : `Add`} Transaction</DialogTitle>
-          <DialogDescription>Enter the information below</DialogDescription>
-        </DialogHeader>
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select the transaction type..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {
+                            TRANSACTION_TYPE_OPTIONS.map(opt => (
+                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            ))
+                          }
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Name of the transaction" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Amount</FormLabel>
-                  <FormControl>
-                    <MoneyInput
-                      placeholder="Amount"
-                      value={field.value}
-                      onValueChange={({ floatValue }) => field.onChange(floatValue)}
-                      onBlur={field.onBlur}
-                      disabled={field.disabled}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="paymentMethod"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Payment Method</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select the payment method..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {
+                            TRANSACTION_PAYMENT_METHOD_OPTIONS.map(opt => (
+                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            ))
+                          }
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select the transaction type..." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {
-                        TRANSACTION_TYPE_OPTIONS.map(opt => (
-                          <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select the category..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {
+                            TRANSACTION_CATEGORY_OPTIONS.map(opt => (
+                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            ))
+                          }
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="paymentMethod"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Payment Method</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select the payment method..." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {
-                        TRANSACTION_PAYMENT_METHOD_OPTIONS.map(opt => (
-                          <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date</FormLabel>
+                      <FormControl>
+                        <DatePicker value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select the category..." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {
-                        TRANSACTION_CATEGORY_OPTIONS.map(opt => (
-                          <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date</FormLabel>
-                  <FormControl>
-                    <DatePicker value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button type="button" variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit">{transactionId ? `Update` : `Add`}</Button>
-            </DialogFooter>
-          </form>
-        </Form>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button type="button" variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit">{transactionId ? `Update` : `Add`}</Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   )
